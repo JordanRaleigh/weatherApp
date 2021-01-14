@@ -22,13 +22,12 @@ export interface WeatherEntry {
 // NOTE: API Docs can be found here: https://openweathermap.org/current
 const key = "55019652a29de8dae744a7a05b11b581";
 
-class Client {
-  async getWeatherByZipCode(zipCode: number) {
+const getWeatherByZipCode = async (zipCode: string)=> {
     const res = await axios.get(
       `http://api.openweathermap.org/data/2.5/weather?zip=${zipCode}&units=imperial&appid=${key}`
     );
     return res.data as WeatherEntry;
-  }
 }
 
-export default new Client();
+
+export default getWeatherByZipCode;

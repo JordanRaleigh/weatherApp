@@ -2,7 +2,6 @@ import Header from './Header';
 import Layout from './Layout';
 import Weather from './Weather';
 import getWeatherByZipCode from '../api/api';
-import React, { useState } from 'react';
 
 // const EXAMPLE_ZIP_CODE = 37203;
 /* const EXAMPLE_WEATHER_RESPONSE =
@@ -50,43 +49,16 @@ import React, { useState } from 'react';
   }
 } */
 
-interface WeatherEntry {
-  zipcode: string;
-  clouds: { all: number };
-  dt: number;
-  main: {
-    feels_like: number;
-    humidity: number;
-    temp_max: number;
-    temp_min: number;
-    temp: number;
-  };
-  name: string;
-  weather: {
-    main: string;
-    description: string;
-  }[];
-  wind: { speed: number };
-}
-
 export default function HomePage() {
-  const [weatherentry, setweatherentry] = useState<null | WeatherEntry>(null);
-
-  const getWeather = async (zipCode: string) => {
+  const getWeather = (zipCode: string) => {
     console.log('getting weather from API', zipCode);
-    const data = await getWeatherByZipCode(zipCode);
-    console.log('we reset ', data);
-    setweatherentry({ ...data, zipcode: zipCode });
+    getWeatherByZipCode(zipCode).then((x) => console.log('data: ', x));
   };
 
   return (
     <Layout>
       <Header getFromAPI={getWeather} />
-      {weatherentry ? (
-        <Weather entry={weatherentry} getWeather={getWeather} />
-      ) : (
-        ''
-      )}
+      <Weather />
     </Layout>
   );
 }
